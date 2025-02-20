@@ -20,6 +20,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,6 +46,7 @@ fun PlaceTypeContents(
     onPlaceTypeScreenBackPressed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigationItemContentList = PlaceType.entries
     BackHandler {
         onPlaceTypeScreenBackPressed()
     }
@@ -58,7 +61,8 @@ fun PlaceTypeContents(
         )
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .weight(1f),
             contentPadding = PaddingValues(8.dp),
         ) {
             item {
@@ -88,6 +92,13 @@ fun PlaceTypeContents(
                 PlaceCard(place, onClick = onPlaceCardPressed)
             }
         }
+        BottomNavigationBar(
+            currentTab = amsterdamUiState.currentPlaceType,
+            onTabPressed = onTabPressed,
+            navigationItemContentList = navigationItemContentList,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
     }
 
 }
@@ -125,6 +136,30 @@ fun PlaceCard(place: Place, onClick: (place: Place) -> Unit, modifier: Modifier 
         }
     }
 }
+
+@Composable
+private fun BottomNavigationBar(
+    currentTab: PlaceType,
+    onTabPressed: ((PlaceType) -> Unit),
+    navigationItemContentList: List<PlaceType>,
+    modifier: Modifier = Modifier
+) {
+    NavigationBar(modifier = modifier) {
+        for (navItem in navigationItemContentList) {
+            NavigationBarItem(
+                selected = currentTab == navItem,
+                onClick = { onTabPressed(navItem) },
+                icon = {
+                    Icon(
+                        painter = painterResource(navItem.iconRes),
+                        contentDescription = navItem.label
+                    )
+                }
+            )
+        }
+    }
+}
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
