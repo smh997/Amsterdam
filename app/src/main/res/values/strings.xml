@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Amsterdam</string>
-    <string name="Cafe1_name">CT Coffee &amp; Coconuts</string>
+    <string name="Cafe1_name">CT Coffee and Coconuts</string>
     <string name="Cafe1_description">A special place where you can enjoy a snack and a drink all day long. Where there was still a cinema in the 1920s, you can now settle down on a bean bag and enjoy various home-made dishes and drinks. The menu is extensive and for any time of the day. You can even have breakfast all day at CT Coffee &amp; Coconuts if you wish. Start the day with a coffee and coconut pancakes, recover after exercise with a juice or fresh coconut water, or stop by for a (late) lunch. Don\'t have time during the day? In the evening there is also plenty of choice for drinks and dinner. All this in an imposing space that is very tastefully decorated; no reason to pass by when you are in the Pijp!</string>
     <string name="Cafe1_address">Ceintuurbaan 282–284, 1072 GK Amsterdam</string>
     <string name="Cafe1_address_url">https://www.google.com/maps/place/52.352607,4.891426</string>
@@ -24,11 +24,11 @@
     <string name="Restaurant3_description">The 2-Michelin-starred Restaurant Vinkeles is a special destination in the center of Amsterdam. Located in a sunken 18th century bakery building, it is the perfect location to enjoy the craftsmanship of Chef Jurgen van der Zalm and his team. On a never-ending quest to bring out the flavors, purity and character of first-class ingredients, Jurgen van der Zalm has elevated his kitchen to the highest culinary level imaginable, characterized by French cooking techniques. It is not without reason that Vinkeles is the proud bearer of 2 Michelin stars.</string>
     <string name="Restaurant3_address">Keizersgracht 384, 1016 GB Amsterdam</string>
     <string name="Restaurant3_address_url">https://www.google.com/maps/place/52.36929,4.884014</string>
-    <string name="Kids_Friendly1_name">NEMO Science Museum</string>
+    <string name="Kids_Friendly1_name">Nemo Science Museum</string>
     <string name="Kids_Friendly1_description">Right next to the Central Station is one of the most modern architectural highlights of Amsterdam. NEMO Science Museum, the large, green building houses the largest science museum in the Netherlands. The building was designed by the famous Italian architect Renzo Piano. From the roof square you can admire a magnificent view of Amsterdam. NEMO Science Museum is the largest Science museum in the Netherlands, created for anyone with a curious mind. Visitors of all ages are welcome to discover the world of science and technology. NEMO takes you into the wonders of the everyday. Discover, for example, how bridges work, why you sometimes see things that are not there and what causes lightning, in the interactive exhibits. Workshops, videos, experiments and demonstrations complement the NEMO experience. A crackling sweater or a rainbow: you will see the world around you as never before after a visit to NEMO.</string>
     <string name="Kids_Friendly1_address">Oosterdok 2, 1011 VX Amsterdam</string>
     <string name="Kids_Friendly1_address_url">https://www.google.com/maps/place/52.374238,4.912014</string>
-    <string name="Kids_Friendly2_name">ARTIS Amsterdam Royal Zoo</string>
+    <string name="Kids_Friendly2_name">Artis Amsterdam Royal Zoo</string>
     <string name="Kids_Friendly2_description">Fantastic news from ARTIS. On Friday afternoon, August 16, a healthy baby giraffe was born. The birth went smoothly, and within two hours, the calf was standing and nursing from its mother. The ARTIS team is relieved and happy. The birth is great news for the European breeding program for this endangered species. Be surprised by the many animal species that live with and among each other in the Monkey House and Bird House. Discover the tiniest organisms in ARTIS-Micropia, the world\'s first microbe museum. Travel through space in the Planetarium. View the giraffes together with zebras and springboks on the Savannah.</string>
     <string name="Kids_Friendly2_address">Plantage Kerklaan 38–40, 1018 CZ Amsterdam</string>
     <string name="Kids_Friendly2_address_url">https://www.google.com/maps/place/52.366101,4.916811</string>
@@ -56,9 +56,10 @@
     <string name="Shopping2_description">Magna Plaza is an indoor shopping centre located in a historical building behind the Royal Palace. Built at the end of the 19th century, this former post office is now an exclusive shopping destination with more than 20 stores plus a new exhibition space spread over four floors. From clothes and shoes to jewellery and hair salons, the Magna Plaza indoor shopping centre has an excellent variety of shops. Just a few of the brands you’ll find here include Mango, Swarovski, gsus and Lacoste. When it’s time for a break, you can stop at Grand Café Ovidius for a sandwich or cup of coffee. Magna Plaza is worth a visit just for the neo-Gothic architecture and impressive interior – combining classical grandeur with a modern shopping experience.</string>
     <string name="Shopping2_address">Nieuwezijds Voorburgwal 182, 1012 SJ Amsterdam</string>
     <string name="Shopping2_address_url">https://www.google.com/maps/place/52.373647,4.890439</string>
-    <string name="Shopping3_name">De 9 Straatjes</string>
+    <string name="Shopping3_name">De Nine Straatjes</string>
     <string name="Shopping3_description">The area between the Singel, Herengracht, Keizersgracht and Prinsengracht contains an intimate shopping area known as ‘De Negen Straatjes’ (The Nine Streets). These picturesque streets connecting the canals are filled with one-of-a-kind boutiques, stylish cafés and galleries. The New York Times describes Amsterdam’s Nine Streets as ‘a charming mixture of designer boutiques, art galleries, vintage clothing stores, gift shops and places to eat and drink’ and with good reason. This part of the city centre, tucked away behind the Royal Palace on Dam Square, is popular among shoppers hunting for specialty products and unique gifts. The streets are a paradise for pedestrians, offering idyllic views of the city’s 17th century architecture and Canal Belt, a UNESCO World Heritage Site.</string>
     <string name="Shopping3_address">Tussen de Leidsestraat en Raadhuistraat, 1016 GJ Amsterdam</string>
     <string name="Shopping3_address_url">https://www.google.com/maps/place/52.36916,4.883353</string>
-
+    <string name="googleMaps">Show in Google Maps</string>
+    <string name="navigation_back">Back</string>
 </resources>
