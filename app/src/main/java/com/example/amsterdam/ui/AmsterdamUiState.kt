@@ -9,7 +9,8 @@ data class AmsterdamUiState(
     val places: Map<PlaceType, List<Place>> = emptyMap(),
     val currentPlaceType: PlaceType = PlaceType.CoffeeShop,
     val currentSelectedPlace: Place = LocalPlacesDataProvider.defaultPlace,
-    val currentScreen: ScreenType = ScreenType.Home
+    val homeScreenType: ScreenType = ScreenType.Home,
+    val currentScreen: ScreenType = homeScreenType
 ) {
     val currentPlaces: List<Place> by lazy { places[currentPlaceType]!! }
 }
