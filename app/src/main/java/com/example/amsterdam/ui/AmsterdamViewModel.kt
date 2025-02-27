@@ -1,6 +1,7 @@
 package com.example.amsterdam.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.amsterdam.data.Place
 import com.example.amsterdam.data.PlaceType
 import com.example.amsterdam.data.ScreenType
@@ -9,8 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class AmsterdamViewModel: ViewModel() {
-    private val _uiState = MutableStateFlow(AmsterdamUiState())
+class AmsterdamViewModel(homeScreen: ScreenType): ViewModel() {
+    private val _uiState = MutableStateFlow(AmsterdamUiState(homeScreenType = homeScreen))
     val uiState: StateFlow<AmsterdamUiState> = _uiState
 
     init {
@@ -21,7 +22,7 @@ class AmsterdamViewModel: ViewModel() {
         val places: Map<PlaceType, List<Place>> =
             LocalPlacesDataProvider.allPlaces.groupBy { it.placeType }
         _uiState.value =
-            AmsterdamUiState(
+            _uiState.value.copy(
                 places = places,
                 currentSelectedPlace = places[PlaceType.CoffeeShop]?.get(0)
                     ?: LocalPlacesDataProvider.defaultPlace
@@ -60,9 +61,24 @@ class AmsterdamViewModel: ViewModel() {
     fun updateCurrentPlaceType(placeType: PlaceType) {
         _uiState.update {
             it.copy(
+                currentSelectedPlace = it.places[placeType]?.get(0)
+                    ?: LocalPlacesDataProvider.defaultPlace,
                 currentPlaceType = placeType,
-                currentScreen = ScreenType.PlaceType
+                currentScreen = ScreenType.PlaceType,
             )
         }
+    }
+
+    companion object {
+        fun provideFactory(homeScreen: ScreenType): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    if (modelClass.isAssignableFrom(AmsterdamViewModel::class.java)) {
+                        @Suppress("UNCHECKED_CAST")
+                        return AmsterdamViewModel(homeScreen) as T
+                    }
+                    throw IllegalArgumentException("Unknown ViewModel class")
+                }
+            }
     }
 }
