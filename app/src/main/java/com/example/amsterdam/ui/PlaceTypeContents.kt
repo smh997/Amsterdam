@@ -20,8 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,44 +30,41 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.amsterdam.R
 import com.example.amsterdam.data.Place
-import com.example.amsterdam.data.PlaceType
 import com.example.amsterdam.data.local.LocalPlacesDataProvider
+import com.example.amsterdam.ui.utils.NavigationType
 import com.example.compose.AmsterdamTheme
 
 @Composable
 fun PlaceTypeContents(
     amsterdamUiState: AmsterdamUiState,
-    onTabPressed: (PlaceType) -> Unit,
     onPlaceCardPressed: (Place) -> Unit,
-    onPlaceTypeScreenBackPressed: () -> Unit,
-    modifier: Modifier = Modifier
+    navigationType: NavigationType,
+    modifier: Modifier = Modifier,
+    onPlaceTypeScreenBackPressed: () -> Unit = {},
+    backEnabled: Boolean = false,
 ) {
-    val navigationItemContentList = PlaceType.entries
-    BackHandler {
-        onPlaceTypeScreenBackPressed()
+    if (backEnabled) {
+        BackHandler {
+            onPlaceTypeScreenBackPressed()
+        }
     }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Header(
-            title = stringResource(R.string.app_name),
-            isFullScreen = true,
-            onBackButtonClicked = onPlaceTypeScreenBackPressed
-        )
+
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+                .fillMaxWidth(),
             contentPadding = PaddingValues(8.dp),
         ) {
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.primaryContainer),
+                        .background(color = MaterialTheme.colorScheme.inversePrimary),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -89,27 +84,35 @@ fun PlaceTypeContents(
 
             }
             items(amsterdamUiState.currentPlaces) { place ->
-                PlaceCard(place, onClick = onPlaceCardPressed)
+                PlaceCard(
+                    place,
+                    onClick = onPlaceCardPressed,
+                    selected = navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER && amsterdamUiState.currentSelectedPlace == place
+                )
             }
         }
-        BottomNavigationBar(
-            currentTab = amsterdamUiState.currentPlaceType,
-            onTabPressed = onTabPressed,
-            navigationItemContentList = navigationItemContentList,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
     }
 
 }
 
 @Composable
-fun PlaceCard(place: Place, onClick: (place: Place) -> Unit, modifier: Modifier = Modifier) {
+fun PlaceCard(
+    place: Place,
+    onClick: (place: Place) -> Unit,
+    modifier: Modifier = Modifier,
+    selected: Boolean = false
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { onClick(place) },
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected)
+                MaterialTheme.colorScheme.primaryContainer
+            else
+                MaterialTheme.colorScheme.surfaceContainerHighest
+        ),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
@@ -137,29 +140,6 @@ fun PlaceCard(place: Place, onClick: (place: Place) -> Unit, modifier: Modifier 
     }
 }
 
-@Composable
-private fun BottomNavigationBar(
-    currentTab: PlaceType,
-    onTabPressed: ((PlaceType) -> Unit),
-    navigationItemContentList: List<PlaceType>,
-    modifier: Modifier = Modifier
-) {
-    NavigationBar(modifier = modifier) {
-        for (navItem in navigationItemContentList) {
-            NavigationBarItem(
-                selected = currentTab == navItem,
-                onClick = { onTabPressed(navItem) },
-                icon = {
-                    Icon(
-                        painter = painterResource(navItem.iconRes),
-                        contentDescription = navItem.label
-                    )
-                }
-            )
-        }
-    }
-}
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -170,12 +150,12 @@ private fun PlaceTypeContentsPreview() {
         dynamicColor = false
     ) {
         PlaceTypeContents(
-            AmsterdamUiState(
+            amsterdamUiState = AmsterdamUiState(
                 places = places,
             ),
-            {},
-            {},
-            {}
+            navigationType = NavigationType.BOTTOM_NAVIGATION,
+            onPlaceCardPressed = {},
+            backEnabled = true
         )
     }
 }

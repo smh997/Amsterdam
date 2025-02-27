@@ -12,17 +12,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,22 +51,77 @@ import com.example.compose.AmsterdamTheme
 @Composable
 fun PlaceContents(
     amsterdamUiState: AmsterdamUiState,
-    onPlaceScreenBackPressed: () -> Unit,
-    modifier: Modifier = Modifier
+    onNextPlaceClicked: (Place) -> Unit,
+    onPreviousPlaceClicked: (Place) -> Unit,
+    modifier: Modifier = Modifier,
+    onPlaceScreenBackPressed: () -> Unit = {},
+    backEnabled: Boolean = false
 ) {
-    BackHandler {
-        onPlaceScreenBackPressed()
+    val currentSelectedPlace = amsterdamUiState.currentSelectedPlace
+    val currentPlaces = amsterdamUiState.currentPlaces
+    if(backEnabled){
+        BackHandler {
+            onPlaceScreenBackPressed()
+        }
     }
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Header(
-            title = stringResource(R.string.app_name),
-            isFullScreen = true,
-            onBackButtonClicked = onPlaceScreenBackPressed
+        PlaceContentsDetails(
+            place = currentSelectedPlace,
+            modifier = Modifier.weight(1f)
         )
-        PlaceContentsDetails(place = amsterdamUiState.currentSelectedPlace)
+        val nextPlaceIndex =
+            (currentPlaces.indexOf(currentSelectedPlace) + 1) % currentPlaces.size
+        val prevPlaceIndex =
+            (currentPlaces.indexOf(currentSelectedPlace) - 1 + currentPlaces.size) % currentPlaces.size
+        PlaceNavigationButtons(
+            enabled = currentPlaces.size > 1,
+            onNextPlaceClicked = { onNextPlaceClicked(currentPlaces[nextPlaceIndex]) },
+            onPreviousPlaceClicked = { onPreviousPlaceClicked(currentPlaces[prevPlaceIndex]) },
+        )
+    }
+}
+
+@Composable
+fun PlaceNavigationButtons(
+    enabled: Boolean,
+    onNextPlaceClicked: () -> Unit,
+    onPreviousPlaceClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(NavigationBarDefaults.windowInsets)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        TextButton(
+            onClick = onPreviousPlaceClicked,
+            enabled = enabled,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            shape = RoundedCornerShape(16.dp, 8.dp, 8.dp, 16.dp),
+            modifier = Modifier.width(90.dp)
+        ) {
+            Text(stringResource(R.string.previous), fontWeight = FontWeight.Bold)
+        }
+        TextButton(
+            onClick = onNextPlaceClicked,
+            enabled = enabled,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            shape = RoundedCornerShape(8.dp, 16.dp, 16.dp, 8.dp),
+            modifier = Modifier.width(90.dp)
+        ) {
+            Text(stringResource(R.string.next), fontWeight = FontWeight.Bold)
+        }
     }
 }
 
@@ -104,6 +165,7 @@ fun PlacePicture(placeImageRes: Int, contentDescription: String, modifier: Modif
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(max = 300.dp)
     ) {
         Image(
             painter = painterResource(id = placeImageRes),
@@ -122,7 +184,7 @@ fun PlaceNameFrame(placeNameRes: Int, placeType: PlaceType, modifier: Modifier =
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.primaryContainer),
+            .background(color = MaterialTheme.colorScheme.inversePrimary),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -164,7 +226,7 @@ fun PlaceAddress(placeAddressRes: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PlaceGoogleMap(placeGoogleMapRes: Int, modifier: Modifier= Modifier) {
+fun PlaceGoogleMap(placeGoogleMapRes: Int, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val url: String = stringResource(placeGoogleMapRes)
     Row(
@@ -209,6 +271,7 @@ private fun PlaceContentsPreview() {
             AmsterdamUiState(
                 places = places,
             ),
+            {},
             {},
         )
     }

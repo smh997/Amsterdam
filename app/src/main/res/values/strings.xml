@@ -62,4 +62,6 @@
     <string name="Shopping3_address_url">https://www.google.com/maps/place/52.36916,4.883353</string>
     <string name="googleMaps">Show in Google Maps</string>
     <string name="navigation_back">Back</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>
