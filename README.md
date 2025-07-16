@@ -30,4 +30,6 @@ An Android app showcasing a list of places to visit in Amsterdam, categorized in
 - Kotlin + Android SDK
 
 ## 🎥 Demo
-![Amsterdam Demo](demo.gif)
+
+<img src="demo.gif" width="400" alt="Demo" />
+
